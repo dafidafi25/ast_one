@@ -4,11 +4,17 @@ import styled from "styled-components";
 interface IButtonProps {
   children: React.ReactNode;
   onClick?: () => void;
+  fullwidth?: boolean;
 }
 
-export const Button: React.FC<IButtonProps> = ({ children, onClick }) => {
+export const Button: React.FC<IButtonProps> = ({
+  children,
+  onClick,
+  fullwidth = false,
+}) => {
   return (
     <ButtonStyle
+      style={{ width: fullwidth ? "100%" : "auto" }}
       onClick={() => {
         onClick && onClick();
       }}
