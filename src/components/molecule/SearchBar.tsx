@@ -25,7 +25,7 @@ const Container = styled.div`
 
 const TextInput = styled.input`
   align-self: center;
-  padding: 10px 15px;
+  padding: 10px 25px;
   min-width: 400px;
   border-radius: 20px;
   border: none;

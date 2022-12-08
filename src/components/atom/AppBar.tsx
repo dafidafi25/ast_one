@@ -1,5 +1,5 @@
 import { useAppSelector } from "@/hooks/useAppSelector";
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
@@ -9,7 +9,9 @@ export const AppBar: React.FC<IAppBarProps> = () => {
   const ProfileState = useAppSelector((state) => state.profile);
   const navigate = useNavigate();
 
-  if (!ProfileState.user) navigate("/login");
+  useEffect(() => {
+    if (ProfileState.user == undefined) navigate("/login");
+  }, []);
 
   return (
     <Header>
