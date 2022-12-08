@@ -1,13 +1,21 @@
 import Button from "@/components/atom/Button";
 import Spacer from "@/components/atom/Spacer";
 import TextInput from "@/components/atom/TextInput";
-import React from "react";
+import AuthService from "@/services/Auth/AuthService";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import "./login.css";
 
 interface ILoginProps {}
 
 export const Login: React.FC<ILoginProps> = () => {
+  useEffect(() => {
+    console.log("wawa");
+    AuthService.getUserList().then((res) => {
+      console.log(res);
+    });
+  }, []);
+
   return (
     <div className="container">
       <Title>Login Page</Title>
