@@ -1,18 +1,16 @@
 import React from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
 
 interface IButtonProps {
   children: React.ReactNode;
+  onClick?: () => void;
 }
 
-export const Button: React.FC<IButtonProps> = ({ children }) => {
-  const navigate = useNavigate();
-
+export const Button: React.FC<IButtonProps> = ({ children, onClick }) => {
   return (
     <ButtonStyle
       onClick={() => {
-        navigate("/login");
+        onClick && onClick();
       }}
     >
       {children}

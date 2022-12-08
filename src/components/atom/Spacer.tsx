@@ -1,5 +1,4 @@
 import React from "react";
-import styled from "styled-components";
 
 interface ISpacerProps {
   width?: number;
@@ -7,12 +6,7 @@ interface ISpacerProps {
 }
 
 export const Spacer: React.FC<ISpacerProps> = ({ width, height }) => {
-  const Spacer = styled.div`
-    width: ${width}px;
-    height: ${height}px;
-  `;
-
-  return <Spacer />;
+  return <div style={{ width: width, height: height }}></div>;
 };
 
 export default Spacer;

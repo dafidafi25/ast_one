@@ -2,17 +2,30 @@ import Button from "@/components/atom/Button";
 import Spacer from "@/components/atom/Spacer";
 import React from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import "./welcome.css";
+import WelcomeImage from "/public/images/welcome.jpg";
 
 interface IWelcomeProps {}
 
 export const Welcome: React.FC<IWelcomeProps> = () => {
+  const navigate = useNavigate();
+
+  document.body.style.backgroundImage = `url(${WelcomeImage})`;
+
   return (
     <>
       <Spacer height={10} />
       <Header>
         <Title>Cinta Coding</Title>
-        <Button>Login</Button>
+        <Button
+          onClick={() => {
+            document.body.style.backgroundImage = "none";
+            navigate("/login");
+          }}
+        >
+          Login
+        </Button>
       </Header>
     </>
   );
