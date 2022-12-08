@@ -1,14 +1,20 @@
+import Button from "@/components/atom/Button";
+import Spacer from "@/components/atom/Spacer";
 import React from "react";
 import styled from "styled-components";
+import "./welcome.css";
 
 interface IWelcomeProps {}
 
 export const Welcome: React.FC<IWelcomeProps> = () => {
   return (
-    <Header>
-      <Title>Cinta Coding</Title>
-      <Button>Login</Button>
-    </Header>
+    <>
+      <Spacer height={10} />
+      <Header>
+        <Title>Cinta Coding</Title>
+        <Button>Login</Button>
+      </Header>
+    </>
   );
 };
 
@@ -23,19 +29,6 @@ const Header = styled.div`
 
 const Title = styled.h1`
   font-size: 26px;
-`;
-
-const Button = styled.button`
-  background-color: #4285e0;
-  border: none;
-  border-radius: 20px;
-  padding: 10px 35px;
-  color: white;
-  font-weight: bold;
-  font-size: 16px;
-  &:hover {
-    opacity: 0.8;
-  }
 `;
 
 export default Welcome;

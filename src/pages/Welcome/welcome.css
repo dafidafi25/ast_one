@@ -4,7 +4,6 @@ html {
   margin: 0;
   background-image: url("/public/images/welcome.jpg");
   background-size: contain;
-  /* resize background image*/
   background-repeat: no-repeat;
   background-position: center;
   background-attachment: fixed;
