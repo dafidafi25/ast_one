@@ -4,15 +4,17 @@ import { persistReducer } from "redux-persist";
 import thunk from "redux-thunk";
 
 import AuthReducer from "./features/Auth/Auth";
+import ProfileReducer from "./features/Profile/Profile";
 
 const reducers = combineReducers({
   auth: AuthReducer,
+  profile: ProfileReducer,
 });
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth"],
+  whitelist: ["auth", "profile"],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);
