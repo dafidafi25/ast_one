@@ -1,13 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 interface ITextInputProps {
   placeholder?: string;
+  onChangeText?: (text: string) => void;
+  value?: string;
+  variant?: "primary" | "error";
 }
 
-export const TextInput: React.FC<ITextInputProps> = ({ placeholder }) => {
-  // create intput text with centered placeholder
-  return <Input placeholder={placeholder} type="text" />;
+export const TextInput: React.FC<ITextInputProps> = ({
+  placeholder,
+  onChangeText,
+  value = "",
+  variant = "primary",
+}) => {
+  const [UIValue, setUIValue] = useState<string>(value);
+
+  return (
+    <Input
+      style={{ borderColor: variant === "error" ? "red" : "black" }}
+      placeholder={placeholder}
+      type="text"
+      onChange={(e: React.FormEvent<HTMLInputElement>) => {
+        onChangeText && onChangeText(e.currentTarget.value);
+        setUIValue(e.currentTarget.value);
+      }}
+      value={UIValue}
+    />
+  );
   // return <Input placeholder={placeholder} type="text" />;
 };
 

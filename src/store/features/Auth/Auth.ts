@@ -12,6 +12,7 @@ export const auth = createSlice({
       action.payload.forEach((user) => {
         state.byId[user.id] = user;
         state.allIds.push(user.id);
+        state.byUsername[user.username] = user;
       });
     });
   },
