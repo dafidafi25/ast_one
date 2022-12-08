@@ -36,9 +36,6 @@ const Button = styled.button`
   &:hover {
     opacity: 0.8;
   }
-  $:button {
-    opacity: 1;
-  }
 `;
 
 export default Welcome;

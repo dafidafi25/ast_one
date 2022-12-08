@@ -6,9 +6,6 @@ html {
   background-size: contain;
   /* resize background image*/
   background-repeat: no-repeat;
-  /* do not repeat the image */
   background-position: center;
-  /* center the image */
   background-attachment: fixed;
-  /* fixed image */
 }
