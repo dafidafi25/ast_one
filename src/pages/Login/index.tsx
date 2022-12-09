@@ -1,12 +1,15 @@
 import Button from "@/components/atom/Button";
 import Spacer from "@/components/atom/Spacer";
 import TextInput from "@/components/atom/TextInput";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import AuthService from "@/services/Auth/AuthService";
 import { getUser } from "@/store/features/Auth/AuthAction";
+import { saveUser } from "@/store/features/Profile/Profile";
 import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import "./login.css";
 
@@ -23,7 +26,10 @@ interface IErrorForm {
 interface ILoginProps {}
 
 export const Login: React.FC<ILoginProps> = () => {
-  const dispatch = useDispatch();
+  const AsyncDispatch = useDispatch();
+  const dispatch = useAppDispatch();
+
+  const navigate = useNavigate();
 
   const { handleSubmit, control } = useForm<ILoginForm>();
   const UserDB = useAppSelector((state) => state.auth.byUsername);
@@ -34,23 +40,28 @@ export const Login: React.FC<ILoginProps> = () => {
   });
 
   useEffect(() => {
-    dispatch(getUser());
+    AsyncDispatch(getUser());
   }, []);
 
   const handleAuth = (form: ILoginForm) => {
     // check if form is empty
-    if (form.username === "") {
+    let isValid = true;
+    if (form.username == "" || form.username == null) {
       setFormError((oldstate) => ({
         ...oldstate,
         username: "Username is required",
       }));
+      isValid = false;
     }
-    if (form.password === "") {
+    if (form.password == "" || form.password == null) {
       setFormError((oldstate) => ({
         ...oldstate,
         password: "Password is required",
       }));
+      isValid = false;
     }
+
+    if (!isValid) return;
 
     let isAuthenticated = true;
     if (UserDB[form.username] == null) {
@@ -63,9 +74,13 @@ export const Login: React.FC<ILoginProps> = () => {
       isAuthenticated = false;
       setFormError((oldstate) => ({
         ...oldstate,
-        username: "Wrong Password",
+        password: "Wrong Password",
       }));
     }
+    if (!isAuthenticated) return;
+
+    dispatch(saveUser(UserDB[form.username]));
+    navigate("/Dashboard");
   };
 
   return (
@@ -91,6 +106,9 @@ export const Login: React.FC<ILoginProps> = () => {
             />
           )}
         />
+        {FormError.username != "" && (
+          <ErrorText>{FormError.username}</ErrorText>
+        )}
         <Spacer height={20} />
         <Controller
           name="password"
@@ -110,9 +128,12 @@ export const Login: React.FC<ILoginProps> = () => {
             />
           )}
         />
+        {FormError.username != "" && (
+          <ErrorText>{FormError.password}</ErrorText>
+        )}
         <Spacer height={20} />
 
-        <Button fullwidth onClick={() => console.log("wawa")}>
+        <Button fullwidth onClick={() => {}}>
           Login
         </Button>
       </form>
@@ -121,5 +142,11 @@ export const Login: React.FC<ILoginProps> = () => {
 };
 
 const Title = styled.h4``;
+
+const ErrorText = styled.p`
+  color: red;
+  padding: 0;
+  margin: 0;
+`;
 
 export default Login;

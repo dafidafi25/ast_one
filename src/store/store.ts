@@ -4,15 +4,19 @@ import { persistReducer } from "redux-persist";
 import thunk from "redux-thunk";
 
 import AuthReducer from "./features/Auth/Auth";
+import ProfileReducer from "./features/Profile/Profile";
+import PostReducer from "./features/Post/Post";
 
 const reducers = combineReducers({
   auth: AuthReducer,
+  profile: ProfileReducer,
+  post: PostReducer,
 });
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth"],
+  whitelist: ["auth", "profile"],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);

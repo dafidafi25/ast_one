@@ -37,11 +37,10 @@ const Input = styled.input`
   border-radius: 20px;
   padding: 10px 15px;
   width: 300px;
+
   ::placeholder {
     text-align: center;
   }
-
-  /* or, for legacy browsers */
 
   ::-webkit-input-placeholder {
     text-align: center;

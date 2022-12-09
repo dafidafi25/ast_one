@@ -4,13 +4,15 @@ import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import "./welcome.css";
-import WelcomeImage from "/public/images/welcome.jpg";
+import WelcomeImage from "@/assets/images/welcome.jpg";
 
 interface IWelcomeProps {}
 
 export const Welcome: React.FC<IWelcomeProps> = () => {
   const navigate = useNavigate();
 
+  // document.body.style.backgroundImage = `url(${WelcomeImage})`;
+  // add background image to body from /assets/images/welcome.jpg
   document.body.style.backgroundImage = `url(${WelcomeImage})`;
 
   return (
