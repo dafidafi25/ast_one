@@ -4,3 +4,11 @@ export interface IPostModel {
   title: string;
   body: string;
 }
+
+export interface IPostCommentModel {
+  postId: number;
+  id: number;
+  name: string;
+  email: string;
+  body: string;
+}

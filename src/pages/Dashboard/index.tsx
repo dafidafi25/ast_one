@@ -1,6 +1,7 @@
 import Spacer from "@/components/atom/Spacer";
 import PostCard from "@/components/molecule/PostCard";
 import SearchBar from "@/components/molecule/SearchBar";
+import ListViewPostCard from "@/components/Organisms/ListViewPostCard";
 import React from "react";
 import styled from "styled-components";
 
@@ -13,7 +14,7 @@ export const Dashboard: React.FC<IDashboardProps> = () => {
 
       <SearchBar />
       <Spacer height={25} />
-      <PostCard />
+      <ListViewPostCard />
     </Container>
   );
 };

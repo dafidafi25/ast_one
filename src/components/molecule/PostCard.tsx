@@ -1,15 +1,50 @@
 import ChatOutline from "@/assets/icons/ChatOutline";
-import React from "react";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
+import { useAppSelector } from "@/hooks/useAppSelector";
+import { IPostModel } from "@/models/Post";
+import PostService from "@/services/Post/PostService";
+import { addCommentsToState } from "@/store/features/Post/Post";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Spacer from "../atom/Spacer";
 
-interface IPostCardProps {}
+interface IPostCardProps {
+  Post: IPostModel;
+}
 
-export const PostCard: React.FC<IPostCardProps> = () => {
+export const PostCard: React.FC<IPostCardProps> = ({ Post }) => {
+  const UserDB = useAppSelector((state) => state.auth.byId[Post.userId]);
+  const Navigate = useNavigate();
+  const [commentsNumber, setCommentNumber] = useState(0);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (!UserDB) return;
+    const fetchData = async () => {
+      try {
+        const res = await PostService.getPostTotalComment(Post.id);
+        if (!res.data) return;
+
+        dispatch(addCommentsToState(res.data));
+        setCommentNumber(res.data?.length ? res.data.length : 0);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchData();
+  }, [UserDB]);
+
+  if (!UserDB) return null;
+
+  // slice user db username to 4 char
+  UserDB.username = UserDB.username.slice(0, 4);
+
   return (
     <Container>
       <Card>
-        <TitleText>Abit</TitleText>
+        <TitleText>{UserDB.username}</TitleText>
         <Spacer width={20} />
         <CardBody>
           <div
@@ -20,17 +55,15 @@ export const PostCard: React.FC<IPostCardProps> = () => {
               fontSize: 13,
             }}
           >
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quo nulla
-            esse accusamus sint dicta ipsam. Minus commodi suscipit rerum, ullam
-            facilis at itaque amet esse eos recusandae vero doloremque iste.
+            {Post.body}
           </div>
-          <Spacer height={16} />
+          <Spacer height={8} />
           <CardAction>
             <ChatOutline color="#4285e0" />
             <Spacer width={8} />
-            <ActionText>5</ActionText>
+            <ActionText>{commentsNumber}</ActionText>
             <Spacer width={32} />
-            <DetailText onClick={() => console.log("Detail")} href="">
+            <DetailText onClick={() => Navigate(`/post/${Post.id}`)} href="">
               Detail
             </DetailText>
           </CardAction>

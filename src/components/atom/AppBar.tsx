@@ -1,5 +1,7 @@
 import { useAppSelector } from "@/hooks/useAppSelector";
+import { saveUser } from "@/store/features/Profile/Profile";
 import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
@@ -8,9 +10,15 @@ interface IAppBarProps {}
 export const AppBar: React.FC<IAppBarProps> = () => {
   const ProfileState = useAppSelector((state) => state.profile);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (ProfileState.user == undefined) navigate("/login");
+    if (ProfileState.user == undefined) {
+      const user = localStorage.getItem("user");
+
+      if (user == null || user == undefined) navigate("/login");
+      else dispatch(saveUser(JSON.parse(user)));
+    }
   }, []);
 
   return (

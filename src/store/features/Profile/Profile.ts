@@ -8,6 +8,7 @@ export const profile = createSlice({
   reducers: {
     saveUser: (state, action: PayloadAction<IUserModel>) => {
       state.user = action.payload;
+      localStorage.setItem("user", JSON.stringify(action.payload));
     },
   },
 });
