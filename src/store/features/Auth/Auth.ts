@@ -14,6 +14,8 @@ export const auth = createSlice({
         state.allIds.push(user.id);
         state.byUsername[user.username] = user;
       });
+      // add all user to local storage
+      localStorage.setItem("users", JSON.stringify(state.byId));
     });
   },
 });

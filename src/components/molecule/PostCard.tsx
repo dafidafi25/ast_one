@@ -3,11 +3,13 @@ import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { IPostModel } from "@/models/Post";
 import PostService from "@/services/Post/PostService";
-import { addCommentsToState } from "@/store/features/Post/Post";
+import { getUser } from "@/store/features/Auth/AuthAction";
+import { addCommentsToState, post } from "@/store/features/Post/Post";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import Spacer from "../atom/Spacer";
+import { useNavigate } from "react-router-dom";
 
 interface IPostCardProps {
   Post: IPostModel;
@@ -22,7 +24,6 @@ export const PostCard: React.FC<IPostCardProps> = ({ Post }) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (!UserDB) return;
     const fetchData = async () => {
       try {
         const res = await PostService.getPostTotalComment(Post.id);
@@ -63,11 +64,14 @@ export const PostCard: React.FC<IPostCardProps> = ({ Post }) => {
           </div>
           <Spacer height={8} />
           <CardAction>
-            <ChatOutline color="#4285e0" />
+            <ChatOutline
+              color="#4285e0"
+              onClick={() => Navigate(`/post/${Post.id}/comments`)}
+            />
             <Spacer width={8} />
             <ActionText>{commentsNumber}</ActionText>
             <Spacer width={32} />
-            <DetailText onClick={() => Navigate(`/post/${Post.id}`)} href="">
+            <DetailText onClick={() => Navigate(`/post/${Post.id}`)}>
               Detail
             </DetailText>
           </CardAction>
@@ -88,9 +92,8 @@ const DetailText = styled.a`
 
 const Container = styled.div`
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  padding: 0 20%;
+  padding: 0 22%;
 `;
 
 const CardAction = styled.div`
@@ -122,7 +125,7 @@ const TitleText = styled.div`
 `;
 
 const Card = styled.div`
-  width: 400px;
+  min-width: 400px;
   align-self: center;
   flex-direction: row;
   display: flex;

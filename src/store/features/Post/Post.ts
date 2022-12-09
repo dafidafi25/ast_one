@@ -33,6 +33,8 @@ export const post = createSlice({
       for (let comment of action.payload.CommentData) {
         state.commentsById[action.payload.PostId].push(comment);
       }
+      // add comment to local storage
+      localStorage.setItem("commentsById", JSON.stringify(state.commentsById));
     },
     setFilterPage: (state, action: PayloadAction<string>) => {
       const text = action.payload;
@@ -75,6 +77,7 @@ export const post = createSlice({
       }
 
       state.last_page = Math.ceil(state.allIds.length / state.per_page);
+      localStorage.setItem("postById", JSON.stringify(state.byId));
     });
   },
 });

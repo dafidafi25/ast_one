@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import "./style.css";
 
 interface IAppBarProps {}
 
@@ -26,9 +27,16 @@ export const AppBar: React.FC<IAppBarProps> = () => {
       <Title>Cinta Coding</Title>
       <PageTitle>Post</PageTitle>
 
-      <Name>
+      <Name className="dropdown">
         Welcome,{" "}
         <span style={{ color: "#4285e0" }}>{ProfileState.user?.name}</span>
+        <div
+          className="dropdown-content"
+          style={{ cursor: "pointer" }}
+          onClick={() => navigate("/profile")}
+        >
+          <p>Detail Profile</p>
+        </div>
       </Name>
     </Header>
   );

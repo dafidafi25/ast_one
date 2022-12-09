@@ -1,4 +1,5 @@
 import { useAppSelector } from "@/hooks/useAppSelector";
+import { getUser } from "@/store/features/Auth/AuthAction";
 import { getPostList } from "@/store/features/Post/PostAction";
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -16,6 +17,7 @@ export const ListViewPostCard: React.FC<IListViewPostCardProps> = () => {
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(getPostList());
+      await dispatch(getUser());
     };
     fetchData();
   }, []);

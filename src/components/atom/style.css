@@ -1,0 +1,22 @@
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: "white";
+  min-width: 160px;
+  padding: 4px 16px;
+
+  z-index: 1;
+  font-size: 16px;
+  text-align: center;
+  border-radius: 15px;
+  border: 1px solid #4285e0;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}

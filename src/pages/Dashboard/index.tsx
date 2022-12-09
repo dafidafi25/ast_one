@@ -19,7 +19,7 @@ export const Dashboard: React.FC<IDashboardProps> = () => {
 
   return (
     <Container>
-      <Spacer height={25} />
+      <Spacer height={48} />
       <SearchBar onChangeText={onChangeQuery} />
       <Spacer height={25} />
       <ListViewPostCard />
