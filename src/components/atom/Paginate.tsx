@@ -27,13 +27,10 @@ export const Paginate: React.FC<IPaginateProps> = () => {
         </Button>
       )}
 
-      <Spacer width={12} />
-
       {/* for 10 times with a */}
-      {items?.map((item) => (
-        <>
+      {items?.map((item, index) => (
+        <div key={item}>
           <Page
-            key={item}
             style={{
               color: page == item ? "#4285e0" : "gray",
               fontWeight: page == item ? "bold" : "normal",
@@ -42,19 +39,18 @@ export const Paginate: React.FC<IPaginateProps> = () => {
           >
             {item}
           </Page>
-          <Spacer width={12} />
-        </>
+          {index < items.length && <Spacer width={24} />}
+        </div>
       ))}
-      {page != last_page && (
-        <Button onClick={() => handlePageClick({ selected: page - 1 + 1 })}>
-          next
-        </Button>
-      )}
+
+      <Button onClick={() => handlePageClick({ selected: page - 1 + 1 })}>
+        {page != last_page && "next"}
+      </Button>
     </Container>
   );
 };
 
-const Page = styled.a`
+const Page = styled.p`
   color: gray;
   font-size: 13px;
   text-decoration: none;
@@ -70,16 +66,18 @@ const Page = styled.a`
   }
 `;
 
-const Button = styled.a`
+const Button = styled.span`
+  text-align: center;
   color: gray;
   text-decoration: none;
   &:hover {
     opacity: 0.6;
   }
   cursor: pointer;
+  width: 50px;
 `;
 
-const Container = styled.a`
+const Container = styled.span`
   display: flex;
   flex-direction: row;
   align-items: center;

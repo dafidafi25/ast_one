@@ -7,7 +7,7 @@ export interface PostState {
   per_page: number;
   page: number;
   last_page: number;
-  commentsById: Record<number, IPostCommentModel>;
+  commentsById: Record<number, IPostCommentModel[]>;
 }
 
 export const initialState: PostState = {

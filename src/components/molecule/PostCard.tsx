@@ -15,6 +15,8 @@ interface IPostCardProps {
 
 export const PostCard: React.FC<IPostCardProps> = ({ Post }) => {
   const UserDB = useAppSelector((state) => state.auth.byId[Post.userId]);
+  const PostDB = useAppSelector((state) => state.post.commentsById[Post.id]);
+
   const Navigate = useNavigate();
   const [commentsNumber, setCommentNumber] = useState(0);
   const dispatch = useAppDispatch();
@@ -26,25 +28,27 @@ export const PostCard: React.FC<IPostCardProps> = ({ Post }) => {
         const res = await PostService.getPostTotalComment(Post.id);
         if (!res.data) return;
 
-        dispatch(addCommentsToState(res.data));
+        dispatch(
+          addCommentsToState({ PostId: Post.id, CommentData: res.data })
+        );
         setCommentNumber(res.data?.length ? res.data.length : 0);
       } catch (err) {
         console.log(err);
       }
     };
-
+    if (PostDB) {
+      setCommentNumber(PostDB?.length ? PostDB.length : 0);
+      return;
+    }
     fetchData();
   }, [UserDB]);
 
   if (!UserDB) return null;
 
-  // slice user db username to 4 char
-  UserDB.username = UserDB.username.slice(0, 4);
-
   return (
     <Container>
       <Card>
-        <TitleText>{UserDB.username}</TitleText>
+        <TitleText>{UserDB?.username.slice(0, 4)}</TitleText>
         <Spacer width={20} />
         <CardBody>
           <div

@@ -22,9 +22,16 @@ export const post = createSlice({
       }
       state.page = action.payload;
     },
-    addCommentsToState: (state, action: PayloadAction<IPostCommentModel[]>) => {
-      for (let comment of action.payload) {
-        state.commentsById[comment.id] = comment;
+    addCommentsToState: (
+      state,
+      action: PayloadAction<{
+        PostId: number;
+        CommentData: IPostCommentModel[];
+      }>
+    ) => {
+      state.commentsById[action.payload.PostId] = [];
+      for (let comment of action.payload.CommentData) {
+        state.commentsById[action.payload.PostId].push(comment);
       }
     },
   },
