@@ -57,8 +57,6 @@ export const post = createSlice({
         idx++;
       }
       state.page = 1;
-
-      console.log(state.allIds);
     },
   },
   extraReducers: (builder) => {
