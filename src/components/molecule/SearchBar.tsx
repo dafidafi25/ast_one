@@ -13,7 +13,12 @@ export const SearchBar: React.FC<ISearchBarProps> = ({
 }) => {
   return (
     <Container>
-      <TextInput placeholder="Search"></TextInput>
+      <TextInput
+        placeholder="Search"
+        onChange={(e: React.FormEvent<HTMLInputElement>) =>
+          onChangeText && onChangeText(e.currentTarget.value)
+        }
+      ></TextInput>
     </Container>
   );
 };

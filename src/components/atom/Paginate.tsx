@@ -44,7 +44,7 @@ export const Paginate: React.FC<IPaginateProps> = () => {
       ))}
 
       <Button onClick={() => handlePageClick({ selected: page - 1 + 1 })}>
-        {page != last_page && "next"}
+        {page != last_page && last_page != 0 && "next"}
       </Button>
     </Container>
   );

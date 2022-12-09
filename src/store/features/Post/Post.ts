@@ -34,6 +34,32 @@ export const post = createSlice({
         state.commentsById[action.payload.PostId].push(comment);
       }
     },
+    setFilterPage: (state, action: PayloadAction<string>) => {
+      const text = action.payload;
+      const filteredIds = Object.keys(state.byId).filter((id) => {
+        const post = state.byId[parseInt(id)];
+        return (
+          post.title.toLowerCase().includes(text.toLowerCase()) ||
+          post.body.toLowerCase().includes(text.toLowerCase())
+        );
+      });
+
+      state.allIds = filteredIds.map((id) => parseInt(id));
+      state.page = 1;
+      state.last_page = Math.ceil(state.allIds.length / state.per_page);
+
+      state.pagination = [];
+      let idx = 0;
+      for (let id of state.allIds) {
+        if (idx >= (1 - 1) * state.per_page && idx < 1 * state.per_page) {
+          state.pagination.push(id);
+        }
+        idx++;
+      }
+      state.page = 1;
+
+      console.log(state.allIds);
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getPostList.fulfilled, (state, action) => {
@@ -55,6 +81,6 @@ export const post = createSlice({
   },
 });
 
-export const { addCommentsToState, getPostPage } = post.actions;
+export const { addCommentsToState, getPostPage, setFilterPage } = post.actions;
 
 export default post.reducer;
