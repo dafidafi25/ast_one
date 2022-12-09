@@ -49,7 +49,7 @@ export const PostCard: React.FC<IPostCardProps> = ({ Post }) => {
     <Container>
       <Card>
         <TitleText>{UserDB?.username.slice(0, 4)}</TitleText>
-        <Spacer width={20} />
+
         <CardBody>
           <div
             style={{
@@ -118,6 +118,7 @@ const TitleText = styled.div`
   font-weight: 600;
   color: #000000;
   margin-bottom: 10px;
+  width: 75px;
 `;
 
 const Card = styled.div`
