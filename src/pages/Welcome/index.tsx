@@ -1,6 +1,6 @@
 import Button from "@/components/atom/Button";
 import Spacer from "@/components/atom/Spacer";
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import "./welcome.css";
@@ -11,8 +11,6 @@ interface IWelcomeProps {}
 export const Welcome: React.FC<IWelcomeProps> = () => {
   const navigate = useNavigate();
 
-  // document.body.style.backgroundImage = `url(${WelcomeImage})`;
-  // add background image to body from /assets/images/welcome.jpg
   document.body.style.backgroundImage = `url(${WelcomeImage})`;
 
   return (
@@ -23,7 +21,10 @@ export const Welcome: React.FC<IWelcomeProps> = () => {
         <Button
           onClick={() => {
             document.body.style.backgroundImage = "none";
-            navigate("/login");
+
+            //check if component already mounted
+
+            navigate("login");
           }}
         >
           Login

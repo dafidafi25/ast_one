@@ -1,27 +1,44 @@
 import ArrowLeft from "@/assets/icons/ArrowLeft";
 import ChatOutline from "@/assets/icons/ChatOutline";
 import Spacer from "@/components/atom/Spacer";
-import { useAppSelector } from "@/hooks/useAppSelector";
+import { IPostCommentModel, IPostModel } from "@/models/Post";
+import { IUserModel } from "@/models/User";
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
 interface ICommentPostProps {}
 
 export const CommentPost: React.FC<ICommentPostProps> = () => {
-  const postId = window.location.pathname.split("/").pop();
-  const PostDB = useAppSelector((state) => state.post.byId[Number(postId)]);
+  // get :post id from /post/:postId/comments
   const navigate = useNavigate();
+  const { postId } = useParams();
+
+  const [postState, setPostState] = React.useState<Record<number, IPostModel>>(
+    {}
+  );
+  const [commentState, setCommentState] = React.useState<
+    Record<number, IPostCommentModel[]>
+  >({});
+
+  const [userState, setUserState] = React.useState<Record<number, IUserModel>>(
+    {}
+  );
 
   useEffect(() => {
-    if (PostDB) return;
-    const fetchData = async () => {
-      try {
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    fetchData();
+    const post = localStorage.getItem("postById");
+    const comments = localStorage.getItem("commentsById");
+    const users = localStorage.getItem("users");
+
+    if (post) {
+      setPostState(JSON.parse(post));
+    }
+    if (comments) {
+      setCommentState(JSON.parse(comments));
+    }
+    if (users) {
+      setUserState(JSON.parse(users));
+    }
   }, []);
 
   return (
@@ -34,30 +51,17 @@ export const CommentPost: React.FC<ICommentPostProps> = () => {
       <Card>
         <Spacer width={75} />
         <CardBody>
-          <Profile>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit
-            ipsam, ex hic, vero quam accusamus soluta nobis reiciendis magnam,
-            nisi animi recusandae aperiam exercitationem suscipit maiores
-            mollitia accusantium beatae voluptate.
-          </Profile>
+          <Profile>{postState[Number(postId)]?.title}</Profile>
         </CardBody>
       </Card>
       <Spacer height={32} />
       <Card>
-        <TitleText>{"wawa"}</TitleText>
+        <TitleText>
+          {userState[postState[Number(postId)]?.userId]?.name.slice(0, 4)}
+        </TitleText>
         <CardBody>
-          <Profile>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laboriosam
-            fuga nihil porro accusantium esse autem aut culpa, omnis, recusandae
-            repudiandae consectetur hic? Culpa dolores iusto corrupti ut quaerat
-            quibusdam rem?
-          </Profile>
+          <Profile>{postState[Number(postId)]?.body}</Profile>
           <Spacer height={8} />
-          <CardAction>
-            <ChatOutline color="#4285e0" />
-            <Spacer width={8} />
-            <ActionText>{2}</ActionText>
-          </CardAction>
         </CardBody>
       </Card>
       <Spacer height={32} />
@@ -68,22 +72,23 @@ export const CommentPost: React.FC<ICommentPostProps> = () => {
       <Spacer height={32} />
 
       {/* Comment Section */}
-      <Card>
-        <TitleText />
-        <Spacer height={32} />
-        <Card>
-          <Spacer width={8} />
-          <TitleText>Rals</TitleText>
-          <CardBody>
-            <Profile>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-              Laboriosam fuga nihil porro accusantium esse autem aut culpa,
-              omnis, recusandae repudiandae consectetur hic? Culpa dolores iusto
-              corrupti ut quaerat quibusdam rem?
-            </Profile>
-          </CardBody>
-        </Card>
-      </Card>
+      {commentState[Number(postId)]?.map((comment) => (
+        <React.Fragment key={comment.id}>
+          <Card>
+            <TitleText />
+            <Spacer height={32} />
+            <Card>
+              <Spacer width={8} />
+              <TitleText>{comment.name.slice(0, 4)}</TitleText>
+              <CardBody>
+                <Profile>{comment.body}</Profile>
+              </CardBody>
+            </Card>
+          </Card>
+          <Spacer height={24} />
+        </React.Fragment>
+      ))}
+      <Spacer height={48} />
     </Container>
   );
 };

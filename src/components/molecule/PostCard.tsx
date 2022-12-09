@@ -3,11 +3,13 @@ import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { IPostModel } from "@/models/Post";
 import PostService from "@/services/Post/PostService";
-import { addCommentsToState } from "@/store/features/Post/Post";
+import { getUser } from "@/store/features/Auth/AuthAction";
+import { addCommentsToState, post } from "@/store/features/Post/Post";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import Spacer from "../atom/Spacer";
+import { useNavigate } from "react-router-dom";
 
 interface IPostCardProps {
   Post: IPostModel;
@@ -22,7 +24,6 @@ export const PostCard: React.FC<IPostCardProps> = ({ Post }) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (!UserDB) return;
     const fetchData = async () => {
       try {
         const res = await PostService.getPostTotalComment(Post.id);
@@ -70,7 +71,7 @@ export const PostCard: React.FC<IPostCardProps> = ({ Post }) => {
             <Spacer width={8} />
             <ActionText>{commentsNumber}</ActionText>
             <Spacer width={32} />
-            <DetailText onClick={() => Navigate(`/post/${Post.id}`)} href="">
+            <DetailText onClick={() => Navigate(`/post/${Post.id}`)}>
               Detail
             </DetailText>
           </CardAction>

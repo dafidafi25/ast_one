@@ -30,7 +30,11 @@ export const AppBar: React.FC<IAppBarProps> = () => {
       <Name className="dropdown">
         Welcome,{" "}
         <span style={{ color: "#4285e0" }}>{ProfileState.user?.name}</span>
-        <div className="dropdown-content">
+        <div
+          className="dropdown-content"
+          style={{ cursor: "pointer" }}
+          onClick={() => navigate("/profile")}
+        >
           <p>Detail Profile</p>
         </div>
       </Name>

@@ -4,6 +4,7 @@ import CommentPost from "@/pages/CommentPost";
 import Dashboard from "@/pages/Dashboard";
 import DetailPost from "@/pages/DetailPost";
 import Login from "@/pages/Login";
+import Profile from "@/pages/Profile";
 import Welcome from "@/pages/Welcome";
 import { createBrowserRouter } from "react-router-dom";
 
@@ -25,6 +26,16 @@ const router = createBrowserRouter([
         <Spacer height={20} />
         <AppBar />
         <Dashboard />
+      </>
+    ),
+  },
+  {
+    path: "/profile",
+    element: (
+      <>
+        <Spacer height={20} />
+        <AppBar />
+        <Profile />
       </>
     ),
   },

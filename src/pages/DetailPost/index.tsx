@@ -1,29 +1,48 @@
 import ArrowLeft from "@/assets/icons/ArrowLeft";
 import ChatOutline from "@/assets/icons/ChatOutline";
 import Spacer from "@/components/atom/Spacer";
-import { useAppSelector } from "@/hooks/useAppSelector";
+import { IPostCommentModel, IPostModel } from "@/models/Post";
+import { IUserModel } from "@/models/User";
+import PostService from "@/services/Post/PostService";
+import { PostState } from "@/store/features/Post/Post.interface";
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 interface IDetailPostProps {}
 
 export const DetailPost: React.FC<IDetailPostProps> = () => {
-  const postId = window.location.pathname.split("/").pop();
-  const PostDB = useAppSelector((state) => state.post.byId[Number(postId)]);
+  const postId = Number(window.location.pathname.split("/").pop());
   const navigate = useNavigate();
 
+  const [postState, setPostState] = React.useState<Record<number, IPostModel>>(
+    {}
+  );
+  const [commentState, setCommentState] = React.useState<
+    Record<number, IPostCommentModel[]>
+  >({});
+
+  const [userState, setUserState] = React.useState<Record<number, IUserModel>>(
+    {}
+  );
+
   useEffect(() => {
-    if (PostDB) return;
-    const fetchData = async () => {
-      try {
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    fetchData();
+    const post = localStorage.getItem("postById");
+    const comments = localStorage.getItem("commentsById");
+    const users = localStorage.getItem("users");
+
+    if (post) {
+      setPostState(JSON.parse(post));
+    }
+    if (comments) {
+      setCommentState(JSON.parse(comments));
+    }
+    if (users) {
+      setUserState(JSON.parse(users));
+    }
   }, []);
 
+  // set post by id local storage to post state
   return (
     <Container>
       <Spacer height={48} />
@@ -42,16 +61,15 @@ export const DetailPost: React.FC<IDetailPostProps> = () => {
               fontSize: 13,
             }}
           >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit
-            ipsam, ex hic, vero quam accusamus soluta nobis reiciendis magnam,
-            nisi animi recusandae aperiam exercitationem suscipit maiores
-            mollitia accusantium beatae voluptate.
+            {postState[postId]?.title}
           </div>
         </CardBody>
       </Card>
       <Spacer height={32} />
       <Card>
-        <TitleText>{"wawa"}</TitleText>
+        <TitleText>
+          {userState[postState[postId]?.userId]?.name.slice(0, 4)}
+        </TitleText>
         <CardBody>
           <div
             style={{
@@ -61,10 +79,7 @@ export const DetailPost: React.FC<IDetailPostProps> = () => {
               fontSize: 13,
             }}
           >
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laboriosam
-            fuga nihil porro accusantium esse autem aut culpa, omnis, recusandae
-            repudiandae consectetur hic? Culpa dolores iusto corrupti ut quaerat
-            quibusdam rem?
+            {postState[postId]?.body}
           </div>
           <Spacer height={8} />
           <CardAction>
@@ -74,7 +89,7 @@ export const DetailPost: React.FC<IDetailPostProps> = () => {
             />
 
             <Spacer width={8} />
-            <ActionText>{2}</ActionText>
+            <ActionText>{commentState[postId]?.length}</ActionText>
           </CardAction>
         </CardBody>
       </Card>

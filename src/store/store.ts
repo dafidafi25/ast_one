@@ -7,6 +7,8 @@ import AuthReducer from "./features/Auth/Auth";
 import ProfileReducer from "./features/Profile/Profile";
 import PostReducer from "./features/Post/Post";
 
+import { connectRouter } from "connected-react-router";
+
 const reducers = combineReducers({
   auth: AuthReducer,
   profile: ProfileReducer,
