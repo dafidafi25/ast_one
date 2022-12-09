@@ -1,6 +1,8 @@
 import AppBar from "@/components/atom/AppBar";
 import Spacer from "@/components/atom/Spacer";
+import CommentPost from "@/pages/CommentPost";
 import Dashboard from "@/pages/Dashboard";
+import DetailPost from "@/pages/DetailPost";
 import Login from "@/pages/Login";
 import Welcome from "@/pages/Welcome";
 import { createBrowserRouter } from "react-router-dom";
@@ -23,6 +25,26 @@ const router = createBrowserRouter([
         <Spacer height={20} />
         <AppBar />
         <Dashboard />
+      </>
+    ),
+  },
+  {
+    path: "/post/:postId",
+    element: (
+      <>
+        <Spacer height={20} />
+        <AppBar />
+        <DetailPost />
+      </>
+    ),
+  },
+  {
+    path: "/post/:postId/comments",
+    element: (
+      <>
+        <Spacer height={20} />
+        <AppBar />
+        <CommentPost />
       </>
     ),
   },

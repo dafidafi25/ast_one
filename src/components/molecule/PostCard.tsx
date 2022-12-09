@@ -63,7 +63,10 @@ export const PostCard: React.FC<IPostCardProps> = ({ Post }) => {
           </div>
           <Spacer height={8} />
           <CardAction>
-            <ChatOutline color="#4285e0" />
+            <ChatOutline
+              color="#4285e0"
+              onClick={() => Navigate(`/post/${Post.id}/comments`)}
+            />
             <Spacer width={8} />
             <ActionText>{commentsNumber}</ActionText>
             <Spacer width={32} />
@@ -88,9 +91,8 @@ const DetailText = styled.a`
 
 const Container = styled.div`
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  padding: 0 20%;
+  padding: 0 22%;
 `;
 
 const CardAction = styled.div`
@@ -122,7 +124,7 @@ const TitleText = styled.div`
 `;
 
 const Card = styled.div`
-  width: 400px;
+  min-width: 400px;
   align-self: center;
   flex-direction: row;
   display: flex;

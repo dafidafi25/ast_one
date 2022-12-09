@@ -21,6 +21,13 @@ class PostService {
     if (!response.ok) return Promise.reject(response);
     return response;
   }
+  static async getUserById(
+    params: PostCommentsRequest
+  ): Promise<ApiResponse<PostCommentsResponse>> {
+    const response = await api.get<PostCommentsResponse>(`/posts/comments`);
+    if (!response.ok) return Promise.reject(response);
+    return response;
+  }
 }
 
 export default PostService;
